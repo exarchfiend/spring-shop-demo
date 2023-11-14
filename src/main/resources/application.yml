@@ -1,1 +1,16 @@
+server:
+  port: 8081
 
+spring:
+  application:
+    name: shop-demo
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: non_null
+
+logging:
+  level:
+    fun.mjauto: debug
+  pattern:
+    dateformat: mm:ss.SSS
