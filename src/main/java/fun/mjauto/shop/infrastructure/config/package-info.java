@@ -1,6 +1,6 @@
 /**
- * @description 
- *
+ * @description
  * @author MJ
  * @date 2023/11/14
- */package fun.mjauto.shop.infrastructure.config;
+ */
+package fun.mjauto.shop.infrastructure.config;

@@ -3,4 +3,4 @@
  * @author MJ
  * @date 2023/11/14
  */
-package fun.mjauto.shop.repository.vo;
+package fun.mjauto.shop.repository.entity;
