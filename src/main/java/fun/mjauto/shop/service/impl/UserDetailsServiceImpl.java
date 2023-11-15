@@ -3,7 +3,6 @@ package fun.mjauto.shop.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import fun.mjauto.shop.mapper.UserDetailsMapper;
 import fun.mjauto.shop.pojo.entity.UserDetailsEntity;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author MJ
- * @description
+ * @description Security数据库用户认证接口实现
  * @date 2023/11/14
  */
 @Service
@@ -22,7 +21,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         // 根据username查询用户
         QueryWrapper<UserDetailsEntity> wrapperUser = new QueryWrapper<>();
         wrapperUser.eq("username", username); // 在查询条件中设置字段名和值

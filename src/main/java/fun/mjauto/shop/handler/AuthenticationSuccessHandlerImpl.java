@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -22,7 +21,7 @@ import static fun.mjauto.shop.constant.RedisConstants.*;
 
 /**
  * @author MJ
- * @description
+ * @description 认证成功处理器
  * @date 2023/11/14
  */
 @Slf4j

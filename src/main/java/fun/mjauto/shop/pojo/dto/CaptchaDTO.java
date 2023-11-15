@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @author MJ
- * @description
+ * @description 验证码图片
  * @date 2023/11/14
  */
 @Data

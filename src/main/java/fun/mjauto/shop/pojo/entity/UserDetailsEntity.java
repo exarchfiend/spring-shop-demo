@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @author MJ
- * @description
+ * @description 用户认证表
  * @date 2023/11/14
  */
 @Data

@@ -34,8 +34,8 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 使用AntPathRequestMatcher匹配路径
-//        AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher("/login", "POST"); // 登录路径
-        AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher("/login"); // 登录路径
+        AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher("/login", "POST"); // 登录路径
+        // AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher("/login"); // 登录路径
         AntPathRequestMatcher authCodeMatcher = new AntPathRequestMatcher("/auth/code", "GET"); // 获取验证码路径
 
         // 排除掉登录请求和获取验证码请求

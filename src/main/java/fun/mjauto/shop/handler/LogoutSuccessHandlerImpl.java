@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  * @author MJ
- * @description
+ * @description 注销成功处理器
  * @date 2023/11/14
  */
 @Slf4j

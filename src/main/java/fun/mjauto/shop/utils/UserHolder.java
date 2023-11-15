@@ -4,7 +4,7 @@ import fun.mjauto.shop.pojo.dto.UserDTO;
 
 /**
  * @author MJ
- * @description
+ * @description 线程操作用户
  * @date 2023/11/14
  */
 public class UserHolder {

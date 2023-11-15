@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author MJ
- * @description
+ * @description API响应包装类
  * @date 2023/11/14
  */
 @Data
