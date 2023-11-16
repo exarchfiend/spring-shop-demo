@@ -46,7 +46,7 @@ public class VoucherServiceImpl extends ServiceImpl<VoucherMapper, VoucherEntity
         //         .queryWithLogicalExpire(CACHE_VOUCHER_KEY, id, VoucherEntity.class, this::getById, CACHE_VOUCHER_TTL, TimeUnit.MINUTES);
 
         if (voucher == null) {
-            return new ApiResponse<>(500,"优惠券不存在",null);
+            return new ApiResponse<>().fail("优惠券不存在");
         }
         // 返回优惠券响应
         return new ApiResponse<>().success(voucher);

@@ -46,7 +46,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
             // 返回错误信息
             response.getWriter().write(JSONUtil.toJsonStr(new ApiResponse<>().fail("验证码错误")));
         } else {
-            // 验证通过，后面会开始用户名和密码验证
+            // 验证通过 继续用户名和密码验证
             filterChain.doFilter(request, response);
         }
 
@@ -65,6 +65,12 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
             return false;
         }
         // 验证是否相等
-        return code.equals(cacheCode);
+        if (!code.equals(cacheCode)){
+            // 验证失败
+            return false;
+        }
+        // 验证通过 使验证码失效
+        stringRedisTemplate.delete(AUTH_CODE_KEY + uuid);
+        return true;
     }
 }

@@ -1,7 +1,5 @@
 package fun.mjauto.shop.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fun.mjauto.shop.mapper.VoucherSeckillMapper;
 import fun.mjauto.shop.pojo.dto.ApiResponse;

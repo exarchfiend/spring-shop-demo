@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+import static fun.mjauto.shop.constant.RedisConstants.*;
+
 /**
  * @author MJ
  * @description 优惠券订单服务接口实现
@@ -30,20 +32,19 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
     private final StringRedisTemplate stringRedisTemplate;
     private final VoucherSeckillService voucherSeckillService;
     private final RedissonClient redissonClient;
-
     private static final DefaultRedisScript<Long> SECKILL_SCRIPT;
-
-    static {
-        SECKILL_SCRIPT = new DefaultRedisScript<>();
-        SECKILL_SCRIPT.setLocation(new ClassPathResource("seckill.lua"));
-        SECKILL_SCRIPT.setResultType(Long.class);
-    }
 
     public VoucherOrderServiceImpl(CacheClient cacheClient, StringRedisTemplate stringRedisTemplate, VoucherSeckillService voucherSeckillService, RedissonClient redissonClient) {
         this.cacheClient = cacheClient;
         this.stringRedisTemplate = stringRedisTemplate;
         this.voucherSeckillService = voucherSeckillService;
         this.redissonClient = redissonClient;
+    }
+
+    static {
+        SECKILL_SCRIPT = new DefaultRedisScript<>();
+        SECKILL_SCRIPT.setLocation(new ClassPathResource("seckill.lua"));
+        SECKILL_SCRIPT.setResultType(Long.class);
     }
 
     @Override
@@ -54,7 +55,13 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         Long result = stringRedisTemplate.execute(
                 SECKILL_SCRIPT,
                 Collections.emptyList(),
-                id.toString(), String.valueOf(userId), String.valueOf(orderId), String.valueOf(System.currentTimeMillis())
+                id.toString(),
+                String.valueOf(userId),
+                String.valueOf(orderId),
+                String.valueOf(System.currentTimeMillis()),
+                SECKILL_STOCK_KEY,
+                SECKILL_STOCK_ORDER,
+                SECKILL_STREAM_KEY
         );
         // result不能为null
         if (result == null) {
@@ -76,7 +83,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         Long userId = voucherOrder.getUserId();
         Long voucherId = voucherOrder.getVoucherId();
 
-        // 创建锁对象
+        // 创建锁对象 key + "lock:" + id;
         RLock lock = redissonClient.getLock("lock:order" + userId);
         // 尝试获取锁
         boolean isLock = lock.tryLock();
@@ -112,6 +119,8 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
             }
             // 创建订单
             log.info("秒杀成功");
+            // 数据库发生变动 删除秒杀优惠券缓存
+            stringRedisTemplate.delete(CACHE_VOUCHER_KEY + voucherId);
             return save(voucherOrder);
         } finally {
             lock.unlock();

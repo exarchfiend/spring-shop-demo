@@ -8,11 +8,13 @@ local orderId = ARGV[3]
 -- 1.4.获取当前时间
 local currentTime = ARGV[4]
 
--- 2.数据key
--- 2.1.优惠券key
-local voucherKey = 'shop:seckill:stock:' .. voucherId
--- 2.2.订单key
-local orderKey = 'shop:seckill:order:' .. voucherId
+-- 2.全局常量
+-- 2.1.优惠券key 'shop:seckill:stock:'
+local voucherKey = ARGV[5] .. voucherId
+-- 2.2.订单key 'shop:seckill:order:'
+local orderKey = ARGV[6] .. voucherId
+-- 2.2.订单key 'shop:stream.orders'
+local streamName = ARGV[7]
 
 -- 3.脚本业务
 -- 3.1.判断库存是否充足 get voucherKey
@@ -40,5 +42,5 @@ redis.call('HINCRBY', voucherKey, 'stock', -1)
 -- 3.5.下单（保存用户）SADD orderKey userId
 redis.call('SADD', orderKey, userId)
 -- 3.6.发送消息到队列中， XADD stream.orders * k1 v1 k2 v2 ...
-redis.call('XADD', 'stream.orders', '*', 'userId', userId, 'voucherId', voucherId, 'id', orderId)
+redis.call('XADD', streamName, '*', 'userId', userId, 'voucherId', voucherId, 'id', orderId)
 return 0

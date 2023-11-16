@@ -188,7 +188,7 @@ public class RedisClientImpl implements CacheClient {
             throw new RuntimeException("生成全局唯一ID失败");
         }
         // 2.3.获取互斥锁
-        String lockKey = "id";
+        String lockKey = GLOBAL_ID_KEY + "lock";
         long count = 0;
         // 创建锁对象
         RLock lock =  redissonClient.getLock(lockKey);
